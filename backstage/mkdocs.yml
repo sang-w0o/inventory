@@ -1,0 +1,7 @@
+site_name: CloudForetInventoryService
+site_description: CloudForet Inventory Service
+nav:
+  - About: index.md
+plugins:
+  - techdocs-core
+
