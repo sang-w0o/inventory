@@ -6,6 +6,9 @@ metadata:
   annotations:
     backstage.io/techdocs-ref: dir:.
     backstage.io/managed-by-origin-location: url:https://github.com/sang-w0o/inventory/blob/master/backstage/component-info.yaml
+    backstage.io/kubernetes-id: cloudforet-inventory
+    backstage.io/kubernetes-namespace: doodle-core
+    backstage.io/kubernetes-label-selector: 'backstage.io/kubernetes-id=cloudforet-inventory'
 spec:
   type: coreService
   lifecycle: experimental

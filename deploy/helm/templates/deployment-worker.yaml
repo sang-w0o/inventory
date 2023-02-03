@@ -22,6 +22,7 @@ spec:
         spaceone.shared-flag: {{ print .Values.global.shared | sha256sum }}
         spaceone.application-flag: {{ print .Values.application_worker | sha256sum }}
       labels:
+        backstage.io/kubernetes-id: cloudforet-inventory
 {{ include "spaceone.labels" . | indent 8 }}
         spaceone.service: {{ .Values.name }}-worker
     spec:
