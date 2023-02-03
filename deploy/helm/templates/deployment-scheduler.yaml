@@ -4,6 +4,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
+    backstage.io/kubernetes-id: cloudforet-inventory
 {{ include "spaceone.labels" . | indent 4 }}
     spaceone.service: {{ .Values.name }}
   name: {{ .Values.name }}-scheduler
