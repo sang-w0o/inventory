@@ -1,0 +1,43 @@
+name: Publish TechDocs to S3
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  publish-techdocs-s3:
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_S3_BUCKET_NAME: ${{ secrets.AWS_S3_BUCKET_NAME }}
+      ENTITY_NAMESPACE: 'cloudforet-core'
+      ENTITY_KIND: 'coreService'
+      ENTITY_NAME: 'cloudforet-inventory'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: setup techdocs-cli
+        run: sudo npm install -g @techdocs/cli
+
+      - name: install mkdocs and mkdocs plugins
+        run: python -m pip install mkdocs-techdocs-core==1.*
+
+      - name: Generate docs
+        run: techdocs-cli generate --source-dir ./backstage --no-docker --verbose
+
+      - name: Publish docs
+        run: techdocs-cli publish --publisher-type awsS3 --storage-name $AWS_S3_BUCKET_NAME --entity $ENTITY_NAMESPACE/$ENTITY_KIND/$ENTITY_NAME
+
+
